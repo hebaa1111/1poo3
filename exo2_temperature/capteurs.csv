@@ -1,0 +1,19 @@
+from temperature import Temperature
+
+temperatures = []
+
+with open("capteurs.csv", "r") as f:
+    lignes = f.readlines()
+
+for ligne in lignes[1:]:  # ignorer l'en-tête
+    capteur, valeur = ligne.strip().split(",")
+
+    try:
+        valeur = float(valeur)
+        t = Temperature(valeur)
+        temperatures.append((capteur, t))
+    except (ValueError, TypeError):
+        print(f"{capteur} ignoré")
+
+for capteur, t in temperatures:
+    print(capteur, t.valeur_celsius, t.etat)
